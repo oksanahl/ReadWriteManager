@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class ReadWriteManager {
 
@@ -11,18 +11,11 @@ public class ReadWriteManager {
         this.fileName = fileName;
         dir.mkdir();
     }
-    
-    public void clearFolder () {
 
-        for(File file: dir.listFiles())
-            if (!file.isDirectory())
-                file.delete();
-    }
-
-    public Vector <String> cacheFile () {
+    public ArrayList <String> cacheFile () {
 
         BufferedReader bw = null;
-        Vector <String> linelist = new Vector <String>();
+        ArrayList<String> linelist = new ArrayList <String>();
 
         try {
             bw = new BufferedReader(new FileReader(fileName));
@@ -46,25 +39,17 @@ public class ReadWriteManager {
         return linelist;
     }
 
-    public void writeFile (String fileName, String phrase) {
+    public void writeFile (String fileName, ArrayList <String> phrase) {
 
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter (fileName, true));
-            bw.write(phrase + System.lineSeparator());
-            bw.close();
+            FileWriter writer = new FileWriter (fileName,false);
+            for (String str:phrase){
+            writer.write(str);}
+            writer.close();
         }
 
         catch (IOException e) {
             e.printStackTrace(); }
     }
 
-    public void writeRead() {
-
-        for (int i=0; i < cacheFile().size(); i++)
-        {
-            String response = cacheFile().elementAt(i);
-            //System.out.println(response);
-            writeFile("testfolder\\test.txt", response);
-        }
-    }
 }
